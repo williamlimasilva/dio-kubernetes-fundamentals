@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-html-np-svc
+spec:
+  selector:
+    app: app-html-pod
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      # nodePort: 30080
+      # The nodePort field is required for a NodePort service
+  type: NodePort

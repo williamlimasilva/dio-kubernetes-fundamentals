@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-php
+  labels:
+    app: app-php
+spec:
+  containers:
+    - name: app-php
+      image: denilsonbonatti/myapp-php:1.0
+      ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-php-np-svc
+  labels:
+    app: app-php
+spec:
+  selector:
+    app: app-php
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30007
+  type: NodePort
