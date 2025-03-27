@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kubernetes Training Application</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" media="screen" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <form id="contact" method="post">
+        <h3>Kubernetes Training</h3>
+        <h4>Share your thoughts with us!</h4>
+        <fieldset>
+          <input
+            placeholder="Your Name"
+            type="text"
+            tabindex="1"
+            id="user_name"
+            required
+            autofocus
+            aria-label="Your name"
+          />
+        </fieldset>
+        <fieldset>
+          <textarea
+            placeholder="Type your message here..."
+            id="user_message"
+            tabindex="2"
+            required
+            aria-label="Your message"
+          ></textarea>
+        </fieldset>
+        <fieldset>
+          <button type="button" name="btn_save" id="btn_save">Send Message</button>
+        </fieldset>
+      </form>
+
+      <div id="response"></div>
+    </div>
+    <script src="scripts.js"></script>
+  </body>
+</html>

@@ -134,7 +134,7 @@ spec:
 - `lb` → load balancer
 - `en` → external name
 - `np` → node port
-- `cip`→ cluster ip
+- `cl`→ cluster ip
 - `fe` → frontend
 - `be` → backend
 - `db` → database

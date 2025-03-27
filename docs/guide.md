@@ -168,3 +168,38 @@ kubectl exec --stdin --tty [pod-name] -- /bin/bash
 ```bash
 kubectl port-forward pod/mysql 3306:3306
 ```
+## Resource limits
+```bash
+kubectl apply -f [file] --record
+```
+## Rollback
+```bash
+kubectl rollout undo deployment [deployment-name] --to-revision=[revision-number]
+``` 
+## Autoscaling
+```bash
+kubectl autoscale deployment [deployment-name] --min=[min-pods] --max=[max-pods] --cpu-percent=[cpu-percent]
+```
+## Secrets
+```bash
+kubectl create secret generic [secret-name] --from-literal=[key]=[value]
+```
+## ConfigMap
+```bash
+kubectl create configmap [configmap-name] --from-literal=[key]=[value]
+```
+## Helm
+```bash
+helm install [chart-name] [repo-name]
+```
+## Helm Upgrade
+```bash
+helm upgrade [chart-name] [repo-name]
+```
+## Helm Rollback
+```bash
+helm rollback [chart-name] [repo-name]
+```
+
+
+
