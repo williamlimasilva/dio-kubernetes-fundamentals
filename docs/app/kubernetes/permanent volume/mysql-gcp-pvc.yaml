@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: persistentVolumeClaim
+metadata:
+  name: pvc-gcp
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard-rwo

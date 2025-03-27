@@ -17,7 +17,7 @@ spec:
           env:
             # Use secret in real usage
             - name: MYSQL_ROOT_PASSWORD
-              value: Senha123
+              value: password
             - name: MYSQL_DATABASE
               value: dataset
           ports:
@@ -25,9 +25,9 @@ spec:
               name: mysql
 
           volumeMounts:
-            - name: local
+            - name: pvc-gcp
               mountPath: /var/lib/mysql
       volumes:
-        - name: local
-          hostPath:
-            path: /dataset/
+        - name: pvc-gcp
+          persistentVolumeClaim:
+            claimName: pvc-gcp

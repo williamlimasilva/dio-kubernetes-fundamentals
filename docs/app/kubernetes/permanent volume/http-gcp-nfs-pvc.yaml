@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVoIumeC1aim
+metadata:
+  name: fileserver-httpd
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  volumeName: fileserver-httpd
+  resources:
+    requests:
+      storage: 100Gi
