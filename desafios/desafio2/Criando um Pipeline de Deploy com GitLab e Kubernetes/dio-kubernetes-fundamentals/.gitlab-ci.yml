@@ -1,0 +1,78 @@
+stages:
+  - build
+  - deploy_gcp
+
+build_images:
+  stage: build
+  image: docker:28.0
+
+  services:
+    - docker:28.0-dind
+
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+
+  before_script:
+    - apk add --no-cache py3-pip
+    - pip install docker-compose
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASSWORD
+
+  script:
+    # Build images using Docker Compose
+    - echo "Building images with Docker Compose..."
+    - docker-compose -f compose.yaml build
+    # Tag images properly
+    - docker tag williamlima/project-database:1.0 $REGISTRY_USER/project-database:1.0
+    - docker tag williamlima/project-backend:1.0 $REGISTRY_USER/project-backend:1.0
+    # Push images to Docker Hub
+    - docker push $REGISTRY_USER/project-database:1.0
+    - docker push $REGISTRY_USER/project-backend:1.0
+    # Also build the monolithic image for backward compatibility
+    - echo "Building monolithic app image..."
+    - docker build -t $REGISTRY_USER/dio-kubernetes-fundamentals:1.0 app/.
+    - docker push $REGISTRY_USER/dio-kubernetes-fundamentals:1.0
+    - echo "All images built and pushed successfully!"
+
+deploy_gcp:
+  stage: deploy_gcp
+  image: alpine:3.16
+
+  before_script:
+    - apk add --no-cache openssh-client bash curl
+    - mkdir -p ~/.ssh
+    - echo "$SSH_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+  script:
+    - echo "Deploying to GCP server..."
+    - |
+      ssh gcp@$SSH_SERVER "
+        set -e
+        echo 'Starting deployment process...'
+        
+        # Cleanup and clone repository
+        echo 'Preparing application files...'
+        sudo rm -rf ./dio-kubernetes-fundamentals/
+        sudo git clone https://gitlab.com/williamlimasilva/dio-kubernetes-fundamentals.git
+        cd dio-kubernetes-fundamentals
+        
+        # Docker Compose deployment
+        echo 'Deploying with Docker Compose...'
+        sudo docker-compose -f compose.yaml down --remove-orphans || true
+        sudo docker-compose -f compose.yaml pull
+        sudo docker-compose -f compose.yaml up -d
+        
+        # Kubernetes deployment
+        echo 'Deploying to Kubernetes...'
+        sudo chmod +x ./script.sh
+        ./script.sh
+        
+        # Show status and access information
+        SERVER_IP=\$(curl -s ifconfig.me)
+        echo 'Application deployed successfully!'
+        echo 'Access the application at: http://'\$SERVER_IP
+      "
+    - echo "Deployment completed successfully!"
