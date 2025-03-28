@@ -15,20 +15,24 @@ This project implements a continuous integration and continuous deployment (CI/C
 ```
 dio-kubernetes-fundamentals/
 │
-├── .gitlab-ci.yml              # GitLab CI/CD pipeline configuration
-├── script.sh                   # Kubernetes deployment script
-├── secrets.yml                 # Kubernetes secrets configuration
+├── .gitlab-ci.yml               # GitLab CI/CD pipeline configuration
+├── compose.yml                  # Docker Compose configuration
+├── README.md                    # Project documentation
+├── script.sh                    # Kubernetes deployment script
+├── secrets.yml                  # Kubernetes secrets configuration
 │
-├── app/                        # Application components
-│   ├── backend/                # PHP application
-│   │   ├── php-deploy.yaml     # Kubernetes deployment for PHP
-│   │   └── php-service.yaml    # Kubernetes service for PHP
-│   │
-│   └── database/               # MySQL database
-│       ├── db-deploy.yaml      # Kubernetes deployment for MySQL
-│       ├── db-pvc.yaml         # Persistent Volume Claim for MySQL
-│       └── db-service.yaml     # Kubernetes service for MySQL
-│
+├── app/                         # Application components
+│   ├── backend/                 # PHP application
+│   │   ├── php-deploy.yaml      # Kubernetes deployment for PHP
+│   │   └── php-service.yaml     # Kubernetes service for PHP
+│   ├── database/                # MySQL database
+│   │    ├── db-deploy.yaml      # Kubernetes deployment for MySQL
+│   │    ├── db-pvc.yaml         # Persistent Volume Claim for MySQL
+│   │    └── db-service.yaml     # Kubernetes service for MySQL
+│   └── frontend/                # Frontend application
+│        ├── index.html          # Frontend HTML
+│        ├── styles.css          # Frontend styles
+│        └── script.js           # Frontend JavaScript
 └── docs/                       # Documentation
     └── guide.md                # Docker and Kubernetes guide
 ```
